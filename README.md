@@ -470,7 +470,7 @@ To guarantee the reliability of a large-scale freemium service, the bot relies o
    - **Caching Strategy**: Implementation of an in-memory cache for lightweight responses and a long-term store in MongoDB Atlas for subscription-related records.
    - **Payment Flow Diagram**: See the simplified flow below (Stripe Checkout → Stripe Infrastructure → Azure Function → MongoDB Atlas). The diagram is included as code and will not be rendered in preview.
 
-```
+```mermaid
 graph TD
     %% User Action
     U[👤 Utilisateur Discord] -->|Commande /buypremium| B[🤖 Bot Discord]
