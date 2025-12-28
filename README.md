@@ -472,24 +472,18 @@ To guarantee the reliability of a large-scale freemium service, the bot relies o
 
 ```mermaid
 graph TD
-    %% User Action
-    U[👤 Utilisateur Discord] -->|Commande /buypremium| B[🤖 Bot Discord]
+    U[User Discord] -->|Command /buypremium| B[Bot Discord]
+    B -->|Generate Link| S[Stripe Checkout]
+    S -->|Payment Validated| SP[Stripe Infra]
 
-    %% Payment Flow
-    B -->|Génère lien| S[💳 Stripe Checkout]
-    S -->|Paiement Validé| SP[🏦 Infrastructure Stripe]
+    SP -->|Send PDF Invoice| U
+    SP -->|Webhook Event| AF[Azure Function]
 
-    %% Asynchronous Processes
-    SP -->|Envoi Facture PDF| U
-    SP -->|Webhook Event| AF[⚡ Azure Function]
+    AF -->|Verify Signature| AF
+    AF -->|Update Status| DB[(MongoDB Atlas)]
+    DB -->|Success Notification| B
+    B -->|Confirmation & Roles| U
 
-    %% Business Logic
-    AF -->|Validation Signature| AF
-    AF -->|Update subscriptionStatus| DB[(🗄️ MongoDB Atlas)]
-    DB -->|Notification Succès| B
-    B -->|Confirmation & Rôles| U
-
-    %% Styling
     style SP fill:#6772e5,color:#fff
     style AF fill:#0078d4,color:#fff
     style DB fill:#47a248,color:#fff
