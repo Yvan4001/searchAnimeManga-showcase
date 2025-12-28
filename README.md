@@ -178,6 +178,10 @@ graph LR
         ASSIGN_ROLES --> SEND_WELCOME
         REMOVE_PREMIUM --> REMOVE_ROLES
         REMOVE_ROLES --> SEND_GOODBYE
+
+    %% Replaced: Simplified Payment Flow (ref. top diagram)
+    %% Top snippet (used elsewhere in README) updated to show Stripe Checkout → Stripe infra → Azure Function → MongoDB Atlas
+    %% New concise flow is documented in the Payment Tunnel & Synchronization section as a dedicated mermaid block.
     end
     
     %% Rate Limiting Region
@@ -463,7 +467,34 @@ To guarantee the reliability of a large-scale freemium service, the bot relies o
 
    The bot interacts with external APIs (MyAnimeList/Jikan, AniList) while adhering to high availability requirements:
 
-   - **Caching Strategy**: Implementation of a Redis cache (TTL = 10 min) for popular requests, reducing perceived latency for users and preserving API quotas.
+   - **Caching Strategy**: Implementation of an in-memory cache for lightweight responses and a long-term store in MongoDB Atlas for subscription-related records.
+   - **Payment Flow Diagram**: See the simplified flow below (Stripe Checkout → Stripe Infrastructure → Azure Function → MongoDB Atlas). The diagram is included as code and will not be rendered in preview.
+
+```
+graph TD
+    %% User Action
+    U[👤 Utilisateur Discord] -->|Commande /buypremium| B[🤖 Bot Discord]
+
+    %% Payment Flow
+    B -->|Génère lien| S[💳 Stripe Checkout]
+    S -->|Paiement Validé| SP[🏦 Infrastructure Stripe]
+
+    %% Asynchronous Processes
+    SP -->|Envoi Facture PDF| U
+    SP -->|Webhook Event| AF[⚡ Azure Function]
+
+    %% Business Logic
+    AF -->|Validation Signature| AF
+    AF -->|Update subscriptionStatus| DB[(🗄️ MongoDB Atlas)]
+    DB -->|Notification Succès| B
+    B -->|Confirmation & Rôles| U
+
+    %% Styling
+    style SP fill:#6772e5,color:#fff
+    style AF fill:#0078d4,color:#fff
+    style DB fill:#47a248,color:#fff
+```
+
    - **Rate Limit Management**: Implementation of an intelligent fallback system: if the Jikan API approaches its limit (30 requests/min), the service automatically switches to the AniList GraphQL API to ensure service continuity.
 
 3. **Security & Confidentiality (Privacy by Design)**
