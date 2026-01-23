@@ -513,9 +513,15 @@ By using any search command you accept full responsibility for the results obtai
 The **source code** is released under the **MIT License**.  
 See [`LICENSE.md`](LICENSE.md) for the complete license text.
 
-### Trademark notice
-The individual project names (**News Nintendo**, **SearchAnimeManga**, **Anime & Manga Discord Bot**, etc.) are **not** registered trademarks on their own.  
-They are covered by the registered trademark **SivaGames** (INPI N° 5183463, classes 9 35 38 41 42).  
+---
+### ⚖️ Legal & Trademark Notice
+
+**SivaGames®** is a registered trademark in France (**INPI N° 5183463**).
+Classes: 9 (Software), 35 (Advertising), 38 (Telecommunications), 41 (Entertainment), 42 (IT Services).
+
+The projects referenced in this repository (including *News Nintendo*, *SearchAnimeManga*, *Anime & Manga Discord Bot*) are proprietary software developed and operated under the **SivaGames** brand identity.
+
+*Nintendo® is a trademark of Nintendo Co., Ltd. This project is an unofficial news aggregator and is not affiliated with Nintendo.*
 
 > Use of these names outside the scope of operating the bots described here requires prior written permission from the owner of the SivaGames trademark.
 
